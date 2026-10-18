@@ -36,7 +36,11 @@ when in doubt and treat the list below as a summary that can lag it by a commit.
   `useMemo`/`useCallback` sites is a large unreviewable diff for a modest win. A hand-written memo whose
   equivalence the compiler cannot prove fails `react-hooks/preserve-manual-memoization`.
 - **A bail-out is worse than a missing memo** — it silently drops auto-memoization for the whole
-  function. `react-hook-form`'s `useForm().watch()` causes one; use `useWatch()`.
+  function. `react-hook-form`'s `useForm().watch()` causes one; use `useWatch()`. So does a hook
+  called inside a nested function, typically a component defined in another component's body:
+  hoist it to module scope, where it also stops remounting on every render. So does a `try` with a
+  `finally`, or one wrapping `?.`, `&&`, `||`, `??` or a ternary, anywhere in the function or its
+  callbacks: move that logic into a thunk or a module-level helper.
 - **Green lint is not a correctness gate for the compiler rollout.** None of these rules — nor jest —
   can see the failure mode in the next section. `yarn react-compiler:check` is the gate that does:
   it compiles every enabled tree and fails on a render-time `react-hook-form` read
