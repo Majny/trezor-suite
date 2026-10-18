@@ -41,7 +41,7 @@ when in doubt and treat the list below as a summary that can lag it by a commit.
   can see the failure mode in the next section. `yarn react-compiler:check` is the gate that does:
   it compiles every enabled tree and fails on a render-time `react-hook-form` read
   ([`reactCompilerFrozenReads.ts`](../../packages/suite/webpack/reactCompilerFrozenReads.ts), run by
-  the `other-checks` CI job). Run it locally before pushing anything that reads a form.
+  the `other-checks` CI job). Run it locally before pushing anything that changes any React code.
 
 ## Compiled paths: three review rules no linter enforces
 
